@@ -59,14 +59,4 @@ public class SharedPreferUtil {
         editor.apply();
     }
 
-    public static long getLong(String key) {
-        return getSharedPreferences().getLong(key, 0L);
-    }
-
-    public static void putLong(String key, long value) {
-        SharedPreferences.Editor editor = getEditor();
-        editor.putLong(key, value);
-        editor.apply();
-    }
-
 }
