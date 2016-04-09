@@ -13,11 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.GridLayoutAnimationController;
 
-/**
- * @author Chiu-Ki Chan
- *         https://github.com/chiuki/android-recyclerview
- */
-public class GroupsRecyclerView extends RecyclerView implements Scrollable {
+public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
 
     public static final int MODE_LIST = 0;
     public static final int MODE_GRID = 1;
@@ -40,23 +36,23 @@ public class GroupsRecyclerView extends RecyclerView implements Scrollable {
     private ViewGroup mTouchInterceptionViewGroup;
     private int mSpanCount;
 
-    public GroupsRecyclerView(Context context) {
+    public AutoFitRecyclerView(Context context) {
         super(context);
         init();
     }
 
-    public GroupsRecyclerView(Context context, AttributeSet attrs) {
+    public AutoFitRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public GroupsRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public AutoFitRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
     private void init() {
-        int mode = SharedPreferUtil.get("sp_key_groups_mode", 0);
+        int mode = SharedPreferUtil.get("sp_key_switch_mode", 0);
         if (mode == MODE_LIST) {
             mSpanCount = 1;
         } else {
