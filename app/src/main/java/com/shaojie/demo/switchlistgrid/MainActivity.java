@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mMode = getMode();
 
         mLayoutInflater = LayoutInflater.from(this);
-        mRecyclerView = (AutoFitRecyclerView) findViewById(R.id.recycler_view_books);
+        mRecyclerView = (AutoFitRecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
@@ -200,10 +200,10 @@ public class MainActivity extends AppCompatActivity {
 
             public ListHolder(View v) {
                 super(v);
-                cardView = (CardView) v.findViewById(R.id.group_item_card_view);
-                avatarView = (ImageView) v.findViewById(R.id.group_item_avatar);
-                nameText = (TextView) v.findViewById(R.id.group_item_name);
-                colorView = v.findViewById(R.id.group_item_color);
+                cardView = (CardView) v.findViewById(R.id.list_item_card_view);
+                avatarView = (ImageView) v.findViewById(R.id.list_item_avatar);
+                nameText = (TextView) v.findViewById(R.id.list_item_name);
+                colorView = v.findViewById(R.id.list_item_color);
             }
         }
 
@@ -216,10 +216,10 @@ public class MainActivity extends AppCompatActivity {
 
             public GridHolder(View v) {
                 super(v);
-                cardView = (CardView) v.findViewById(R.id.group_item_card_view);
-                coverView = (ImageView) v.findViewById(R.id.group_item_cover);
-                nameText = (TextView) v.findViewById(R.id.group_item_name);
-                colorView = v.findViewById(R.id.group_item_color);
+                cardView = (CardView) v.findViewById(R.id.grid_item_card_view);
+                coverView = (ImageView) v.findViewById(R.id.grid_item_cover);
+                nameText = (TextView) v.findViewById(R.id.grid_item_name);
+                colorView = v.findViewById(R.id.grid_item_color);
             }
         }
     }
