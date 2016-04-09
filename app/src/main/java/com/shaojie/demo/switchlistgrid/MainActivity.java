@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int[] BG_COLORS = {0xfff25f8c, 0xfffb7f77, 0xfffcc02c, 0xff2fcc87,
             0xff3dc2c7, 0xff47b2f8, 0xffb28bdc, 0xff948079, 0xff36393e};
     @DrawableRes
-    private static final int[] BG_COVERS = {R.drawable.card_cover_a, R.drawable.card_cover_b};
+    private static final int[] BG_COVERS = {R.drawable.card_cover_a, R.drawable.card_cover_b, R.drawable.card_cover_c,
+            R.drawable.card_cover_d, R.drawable.card_cover_e, R.drawable.card_cover_f};
 
     private AutoFitRecyclerView mRecyclerView;
     private MyAdapter mAdapter;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Item> initData() {
         List<Item> records = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             Item record = new Item();
             record.setName("ITEM" + i);
             records.add(record);
