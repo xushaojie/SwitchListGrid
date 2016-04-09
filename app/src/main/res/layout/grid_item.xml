@@ -23,8 +23,7 @@
         <View
             android:id="@+id/group_item_color"
             android:layout_width="match_parent"
-            android:layout_height="13dp"
-            android:background="@color/main_green" />
+            android:layout_height="13dp" />
 
         <TextView
             android:id="@+id/group_item_name"

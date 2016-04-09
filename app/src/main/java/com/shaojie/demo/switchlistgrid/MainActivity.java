@@ -19,6 +19,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 感谢 https://github.com/chiuki/android-recyclerview
+ */
 public class MainActivity extends AppCompatActivity {
 
     @ColorInt
@@ -27,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @DrawableRes
     private static final int[] BG_COVERS = {R.drawable.card_cover_a, R.drawable.card_cover_b};
 
-    private GroupsRecyclerView mRecyclerView;
-    private GroupAdapter mAdapter;
-    private List<GroupRecord> mGroupRecords;
+    private AutoFitRecyclerView mRecyclerView;
+    private MyAdapter mAdapter;
+    private List<Item> mItems;
     private int mMode;
 
     private LayoutInflater mLayoutInflater;
@@ -39,38 +42,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mGroupRecords = createData();
+        mItems = initData();
         mMode = getMode();
 
         mLayoutInflater = LayoutInflater.from(this);
-        mRecyclerView = (GroupsRecyclerView) findViewById(R.id.recycler_view_books);
+        mRecyclerView = (AutoFitRecyclerView) findViewById(R.id.recycler_view_books);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new GroupAdapter();
+        mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
-    private List<GroupRecord> createData() {
-        List<GroupRecord> records = new ArrayList<>();
+    private List<Item> initData() {
+        List<Item> records = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            GroupRecord record = new GroupRecord();
-            record.setGroupName("item" + i);
+            Item record = new Item();
+            record.setName("ITEM" + i);
             records.add(record);
         }
         return records;
     }
 
     private int getMode() {
-        return SharedPreferUtil.get("sp_key_groups_mode", GroupsRecyclerView.MODE_LIST);
+        return SharedPreferUtil.get("sp_key_switch_mode", AutoFitRecyclerView.MODE_LIST);
     }
 
     private void updateMode() {
-        SharedPreferUtil.put("sp_key_groups_mode", mMode);
+        SharedPreferUtil.put("sp_key_switch_mode", mMode);
     }
 
     private void toggleDisplayMode() {
         mMode = mRecyclerView.toggleMode();
-        mAdapter = new GroupAdapter();
+        mAdapter = new MyAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.scheduleLayoutAnimation();
         updateMode();
@@ -79,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            GroupRecord item = (GroupRecord) v.getTag();
+            Item item = (Item) v.getTag();
             if (item == null) {
                 Snackbar.make(mRecyclerView, "ADD", Snackbar.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(mRecyclerView, "ITEM:" + item.getGroupName(), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mRecyclerView, "ITEM:" + item.getName(), Snackbar.LENGTH_SHORT).show();
             }
         }
     };
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         return BG_COVERS[index];
     }
 
-    private class GroupAdapter extends RecyclerView.Adapter {
+    private class MyAdapter extends RecyclerView.Adapter {
 
         private static final int TYPE_HEADER = 0;
         private static final int TYPE_ITEM = 1;
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onAttachedToRecyclerView(RecyclerView recyclerView) {
             super.onAttachedToRecyclerView(recyclerView);
-            if (mMode == GroupsRecyclerView.MODE_GRID) {
+            if (mMode == AutoFitRecyclerView.MODE_GRID) {
                 final GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
                 manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
@@ -130,15 +132,15 @@ public class MainActivity extends AppCompatActivity {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v;
             if (TYPE_HEADER == viewType) {
-                v = mLayoutInflater.inflate(R.layout.group_list_header, parent, false);
+                v = mLayoutInflater.inflate(R.layout.recycleview_header, parent, false);
                 return new HeaderHolder(v);
             } else {
                 switch (mMode) {
-                    case GroupsRecyclerView.MODE_LIST:
-                        v = mLayoutInflater.inflate(R.layout.groups_item_list, parent, false);
+                    case AutoFitRecyclerView.MODE_LIST:
+                        v = mLayoutInflater.inflate(R.layout.list_item, parent, false);
                         return new ListHolder(v);
-                    case GroupsRecyclerView.MODE_GRID:
-                        v = mLayoutInflater.inflate(R.layout.groups_item_grid, parent, false);
+                    case AutoFitRecyclerView.MODE_GRID:
+                        v = mLayoutInflater.inflate(R.layout.grid_item, parent, false);
                         return new GridHolder(v);
                 }
             }
@@ -151,17 +153,17 @@ public class MainActivity extends AppCompatActivity {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.headerView.setOnClickListener(mOnClickListener);
             } else {
-                GroupRecord item = mGroupRecords.get(position - 1);// 减去header的位置
+                Item item = mItems.get(position - 1);// 减去header的位置
                 @ColorInt int colorRes = getBgColor(position);
                 if (holder instanceof ListHolder) {
                     ListHolder listHolder = (ListHolder) holder;
-                    listHolder.nameText.setText(item.getGroupName());
+                    listHolder.nameText.setText(item.getName());
                     listHolder.colorView.setBackgroundColor(colorRes);
                     listHolder.cardView.setTag(item);
                     listHolder.cardView.setOnClickListener(mOnClickListener);
                 } else if (holder instanceof GridHolder) {
                     GridHolder gridHolder = (GridHolder) holder;
-                    gridHolder.nameText.setText(item.getGroupName());
+                    gridHolder.nameText.setText(item.getName());
                     gridHolder.colorView.setBackgroundColor(colorRes);
                     gridHolder.coverView.setImageResource(getBgCover(position));
                     gridHolder.cardView.setTag(item);
@@ -172,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if (mGroupRecords == null || mGroupRecords.isEmpty()) {
+            if (mItems == null || mItems.isEmpty()) {
                 return 1;
             } else {
-                return mGroupRecords.size() + 1;
+                return mItems.size() + 1;
             }
         }
 
@@ -225,11 +227,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        getMenuInflater().inflate(R.menu.main_groups_menu, menu);
-        if (mMode == GroupsRecyclerView.MODE_LIST) {
-            menu.findItem(R.id.menu_item_groups_mode).setIcon(R.drawable.ic_action_group_grid);
+        getMenuInflater().inflate(R.menu.main_switch_menu, menu);
+        if (mMode == AutoFitRecyclerView.MODE_LIST) {
+            menu.findItem(R.id.menu_item_switch_mode).setIcon(R.drawable.ic_action_switch_grid);
         } else {
-            menu.findItem(R.id.menu_item_groups_mode).setIcon(R.drawable.ic_action_group_list);
+            menu.findItem(R.id.menu_item_switch_mode).setIcon(R.drawable.ic_action_switch_list);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -237,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_groups_mode:
+            case R.id.menu_item_switch_mode:
                 toggleDisplayMode();
                 invalidateOptionsMenu();
                 return true;
