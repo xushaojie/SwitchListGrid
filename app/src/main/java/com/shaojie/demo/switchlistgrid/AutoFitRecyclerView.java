@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.GridLayoutAnimationController;
 
+import com.shaojie.demo.switchlistgrid.utils.SharedPreferUtil;
+
 public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
 
     public static final int MODE_LIST = 0;

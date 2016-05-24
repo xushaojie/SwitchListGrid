@@ -1,5 +1,6 @@
-package com.shaojie.demo.switchlistgrid;
+package com.shaojie.demo.switchlistgrid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -15,6 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.shaojie.demo.switchlistgrid.AutoFitRecyclerView;
+import com.shaojie.demo.switchlistgrid.Item;
+import com.shaojie.demo.switchlistgrid.R;
+import com.shaojie.demo.switchlistgrid.utils.SharedPreferUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +249,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_item_switch_mode:
                 toggleDisplayMode();
                 invalidateOptionsMenu();
+                return true;
+            case R.id.menu_item_next:
+                Intent intent = new Intent(this, GridActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
