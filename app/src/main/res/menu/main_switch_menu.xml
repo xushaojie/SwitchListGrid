@@ -5,4 +5,9 @@
         android:id="@+id/menu_item_switch_mode"
         android:title="切换"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_next"
+        android:title="下一页"
+        app:showAsAction="always" />
 </menu>
