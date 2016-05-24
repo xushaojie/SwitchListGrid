@@ -6,7 +6,6 @@
     android:layout_gravity="center_horizontal"
     android:clipToPadding="false"
     android:gravity="center_horizontal"
-    android:layoutAnimation="@anim/grid_layout_animation"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="16dp"
