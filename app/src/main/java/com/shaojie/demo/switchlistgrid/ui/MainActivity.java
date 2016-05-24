@@ -20,8 +20,7 @@ import android.widget.TextView;
 import com.shaojie.demo.switchlistgrid.AutoFitRecyclerView;
 import com.shaojie.demo.switchlistgrid.Item;
 import com.shaojie.demo.switchlistgrid.R;
-import com.shaojie.demo.switchlistgrid.SharedPreferUtil;
-import com.shaojie.demo.switchlistgrid.ui.GridActivity;
+import com.shaojie.demo.switchlistgrid.utils.SharedPreferUtil;
 
 import java.util.ArrayList;
 import java.util.List;

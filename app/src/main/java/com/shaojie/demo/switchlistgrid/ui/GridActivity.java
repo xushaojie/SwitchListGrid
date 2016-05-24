@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shaojie.demo.switchlistgrid.AutoFitRecyclerView;
+import com.shaojie.demo.switchlistgrid.GridRecyclerView;
 import com.shaojie.demo.switchlistgrid.Item;
 import com.shaojie.demo.switchlistgrid.R;
 
@@ -35,7 +35,7 @@ public class GridActivity extends AppCompatActivity {
     private static final int[] BG_COVERS = {R.drawable.card_cover_a, R.drawable.card_cover_b, R.drawable.card_cover_c,
             R.drawable.card_cover_d, R.drawable.card_cover_e, R.drawable.card_cover_f};
 
-    private AutoFitRecyclerView mRecyclerView;
+    private GridRecyclerView mRecyclerView;
     private List<Item> mItems;
     private LayoutInflater mLayoutInflater;
 
@@ -53,7 +53,7 @@ public class GridActivity extends AppCompatActivity {
         mItems = initData();
 
         mLayoutInflater = LayoutInflater.from(this);
-        mRecyclerView = (AutoFitRecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = (GridRecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         GridAdapter adapter = new GridAdapter();
         mRecyclerView.setAdapter(adapter);

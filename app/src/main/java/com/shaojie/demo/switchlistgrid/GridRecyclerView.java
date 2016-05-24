@@ -13,14 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.GridLayoutAnimationController;
 
-import com.shaojie.demo.switchlistgrid.utils.SharedPreferUtil;
+public class GridRecyclerView extends RecyclerView implements Scrollable {
 
-public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
-
-    public static final int MODE_LIST = 0;
-    public static final int MODE_GRID = 1;
-
-    private GridLayoutManager manager;
     // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
@@ -36,48 +30,27 @@ public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
     private boolean mIntercepted;
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
-    private int mSpanCount;
 
-    public AutoFitRecyclerView(Context context) {
+    public GridRecyclerView(Context context) {
         super(context);
         init();
     }
 
-    public AutoFitRecyclerView(Context context, AttributeSet attrs) {
+    public GridRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public AutoFitRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public GridRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
     private void init() {
-        int mode = SharedPreferUtil.get("sp_key_switch_mode", 0);
-        if (mode == MODE_LIST) {
-            mSpanCount = 1;
-        } else {
-            mSpanCount = 2;
-        }
-        manager = new GridLayoutManager(getContext(), mSpanCount);
+        int spanCount = 2;
+        GridLayoutManager manager = new GridLayoutManager(getContext(), spanCount);
         setLayoutManager(manager);
         mChildrenHeights = new SparseIntArray();
-    }
-
-    public int toggleMode() {
-        int mode;
-        if (mSpanCount == 2) {
-            mSpanCount = 1;
-            mode = MODE_LIST;
-        } else {
-            mSpanCount = 2;
-            mode = MODE_GRID;
-        }
-        manager.setSpanCount(mSpanCount);
-        requestLayout();
-        invalidate();
-        return mode;
     }
 
     @Override
@@ -316,9 +289,7 @@ public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     protected void attachLayoutAnimationParameters(View child, ViewGroup.LayoutParams params, int index, int count) {
-
         if (getAdapter() != null && getLayoutManager() instanceof GridLayoutManager) {
-
             GridLayoutAnimationController.AnimationParameters animationParams =
                     (GridLayoutAnimationController.AnimationParameters) params.layoutAnimationParameters;
 
@@ -349,7 +320,7 @@ public class AutoFitRecyclerView extends RecyclerView implements Scrollable {
 
     /**
      * This saved state class is a Parcelable and should not extend
-     * {@link View.BaseSavedState} nor {@link android.view.AbsSavedState}
+     * {@link BaseSavedState} nor {@link android.view.AbsSavedState}
      * because its super class AbsSavedState's constructor
      * {@link android.view.AbsSavedState#AbsSavedState(Parcel)} currently passes null
      * as a class loader to read its superstate from Parcelable.

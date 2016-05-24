@@ -1,8 +1,10 @@
-package com.shaojie.demo.switchlistgrid;
+package com.shaojie.demo.switchlistgrid.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.shaojie.demo.switchlistgrid.MyApp;
 
 /**
  * SharedPreferences辅助类
