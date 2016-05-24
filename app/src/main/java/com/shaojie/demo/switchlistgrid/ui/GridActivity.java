@@ -53,7 +53,7 @@ public class GridActivity extends AppCompatActivity {
         mItems = initData();
 
         mLayoutInflater = LayoutInflater.from(this);
-        mRecyclerView = (GridRecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = (GridRecyclerView) findViewById(R.id.grid_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         GridAdapter adapter = new GridAdapter();
         mRecyclerView.setAdapter(adapter);
